@@ -1,4 +1,5 @@
-﻿using ExceptionsCourse.Entities;
+﻿using ExceptionsCourse.Bank;
+using ExceptionsCourse.Entities;
 using ExceptionsCourse.Entities.Exceptions;
 using System;
 
@@ -10,38 +11,31 @@ namespace ExceptionCourse
         {
             try
             {
-                Console.Write("Room number: ");
-                int roomNumber = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter account data");
 
-                Console.Write("Check-in date (dd/MM/yyyy): ");
-                DateTime checkIn = DateTime.Parse(Console.ReadLine());
+                Console.Write("Number: ");
+                int number = int.Parse(Console.ReadLine());
 
-                Console.Write("Check-Out date (dd/MM/yyyy): ");
-                DateTime checkOut = DateTime.Parse(Console.ReadLine());
+                Console.Write("Holder: ");
+                string name = Console.ReadLine();
 
-                List<Reservation> reservations = new List<Reservation>();
-                reservations.Add(new Reservation(roomNumber, checkIn, checkOut));
+                Console.Write("Initial balance: ");
+                double balance = double.Parse(Console.ReadLine());
 
-                foreach (var reservation in reservations)
-                {
-                    Console.WriteLine(reservation.ToString());
-                }
-                Console.WriteLine("Enter data to update the reservation:");
-                Console.Write("Check-in date (dd/MM/yyyy): ");
-                DateTime checkInUpdate = DateTime.Parse(Console.ReadLine());
+                Console.Write("Withdraw limit: ");
+                double limit = double.Parse(Console.ReadLine());
 
-                Console.Write("Check-Out date (dd/MM/yyyy): ");
-                DateTime checkOutUpdate = DateTime.Parse(Console.ReadLine());
+                Account account = new Account(number, name, balance, limit);
 
-                foreach (var reservation in reservations)
-                {
-                    reservation.UpdateDates(checkInUpdate, checkOutUpdate);
-                    Console.WriteLine(reservation.ToString());
-                }
+                Console.Write("Enter amount for withdraw: ");
+                double value = double.Parse(Console.ReadLine());
+                account.WithDraw(value);
+
+                Console.WriteLine(account.ToString());
             }
-            catch (DomainException error)
+            catch (DomainException exception)
             {
-                Console.WriteLine($"Error in reservation: {error}");
+                Console.WriteLine(exception.Message);
             }
         }
     }
